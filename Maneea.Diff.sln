@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E52D558A-10D5-4B9B-BC1E-1B8E2B33A626}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maneea.Diff", "src\Maneea.Diff\Maneea.Diff.csproj", "{E7C4DF38-3B17-4A57-8F47-14CA8536D063}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5D133908-87C2-4A0D-AB3F-C293A85E57A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maneea.Diff.Tests", "test\Maneea.Diff.Tests\Maneea.Diff.Tests.csproj", "{FAC61F65-48FE-4E3A-933A-155625EE84AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E7C4DF38-3B17-4A57-8F47-14CA8536D063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7C4DF38-3B17-4A57-8F47-14CA8536D063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7C4DF38-3B17-4A57-8F47-14CA8536D063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7C4DF38-3B17-4A57-8F47-14CA8536D063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAC61F65-48FE-4E3A-933A-155625EE84AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAC61F65-48FE-4E3A-933A-155625EE84AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAC61F65-48FE-4E3A-933A-155625EE84AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAC61F65-48FE-4E3A-933A-155625EE84AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E7C4DF38-3B17-4A57-8F47-14CA8536D063} = {E52D558A-10D5-4B9B-BC1E-1B8E2B33A626}
+		{FAC61F65-48FE-4E3A-933A-155625EE84AE} = {5D133908-87C2-4A0D-AB3F-C293A85E57A9}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <!-- NuGet Properties -->
+  <PropertyGroup>
+    <PackageId>Maneea.Diff</PackageId>
+    <Version>0.2.2</Version>
+    <Authors>Maneea</Authors>
+    <Title>.NET Diff</Title>
+    <Description>Library to help in finding differences between POCO instances. Much like git-diff, but for .NET</Description>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageTags>Diff;Difference;History;Versioning</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  
+  <!-- NuGet Items -->
+  <ItemGroup>
+		<None Include="../../README.md" Pack="true" PackagePath="/" />
+		<None Include="../../icon.png" Pack="true" Visible="false" PackagePath="/" />
+	</ItemGroup>
+</Project>
