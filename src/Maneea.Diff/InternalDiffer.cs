@@ -140,7 +140,7 @@ internal class InternalDiffer
     // Number of seconds to map a diff before giving up (0 for infinity).
     public float Diff_Timeout = 0.0f;
     // Cost of an empty edit Operation in terms of edit characters.
-    public short Diff_EditCost = 4;
+    public short Diff_EditCost = 99;
     // At what point is no match declared (0.0 = perfection, 1.0 = very loose).
 
     // Define some regex patterns for matching boundaries.
@@ -1290,6 +1290,108 @@ internal class InternalDiffer
             pointer++;
         }
         // If shifts were made, the diff needs reordering and another shift sweep.
+        if (changes)
+        {
+            diff_cleanupMerge(diffs);
+        }
+    }
+
+
+    /**
+     * Reduce the number of edits by eliminating operationally trivial
+     * equalities.
+     * @param diffs List of Diff objects.
+     */
+    public void diff_cleanupEfficiency(List<Diff> diffs)
+    {
+        bool changes = false;
+        // Stack of indices where equalities are found.
+        Stack<int> equalities = new Stack<int>();
+        // Always equal to equalities[equalitiesLength-1][1]
+        string lastEquality = string.Empty;
+        int pointer = 0;  // Index of current position.
+                          // Is there an insertion operation before the last equality.
+        bool pre_ins = false;
+        // Is there a deletion operation before the last equality.
+        bool pre_del = false;
+        // Is there an insertion operation after the last equality.
+        bool post_ins = false;
+        // Is there a deletion operation after the last equality.
+        bool post_del = false;
+        while (pointer < diffs.Count)
+        {
+            if (diffs[pointer].Operation == Operation.EQUAL)
+            {  // Equality found.
+                if (diffs[pointer].Text.Length < this.Diff_EditCost
+                    && (post_ins || post_del))
+                {
+                    // Candidate found.
+                    equalities.Push(pointer);
+                    pre_ins = post_ins;
+                    pre_del = post_del;
+                    lastEquality = diffs[pointer].Text;
+                }
+                else
+                {
+                    // Not a candidate, and can never become one.
+                    equalities.Clear();
+                    lastEquality = string.Empty;
+                }
+                post_ins = post_del = false;
+            }
+            else
+            {  // An insertion or deletion.
+                if (diffs[pointer].Operation == Operation.DELETE)
+                {
+                    post_del = true;
+                }
+                else
+                {
+                    post_ins = true;
+                }
+                /*
+                 * Five types to be split:
+                 * <ins>A</ins><del>B</del>XY<ins>C</ins><del>D</del>
+                 * <ins>A</ins>X<ins>C</ins><del>D</del>
+                 * <ins>A</ins><del>B</del>X<ins>C</ins>
+                 * <ins>A</del>X<ins>C</ins><del>D</del>
+                 * <ins>A</ins><del>B</del>X<del>C</del>
+                 */
+                if ((lastEquality.Length != 0)
+                    && ((pre_ins && pre_del && post_ins && post_del)
+                    || ((lastEquality.Length < this.Diff_EditCost / 2)
+                    && ((pre_ins ? 1 : 0) + (pre_del ? 1 : 0) + (post_ins ? 1 : 0)
+                    + (post_del ? 1 : 0)) == 3)))
+                {
+                    // Duplicate record.
+                    diffs.Insert(equalities.Peek(),
+                                 new Diff(Operation.DELETE, lastEquality));
+                    // Change second copy to insert.
+                    diffs[equalities.Peek() + 1].Operation = Operation.INSERT;
+                    equalities.Pop();  // Throw away the equality we just deleted.
+                    lastEquality = string.Empty;
+                    if (pre_ins && pre_del)
+                    {
+                        // No changes made which could affect previous entry, keep going.
+                        post_ins = post_del = true;
+                        equalities.Clear();
+                    }
+                    else
+                    {
+                        if (equalities.Count > 0)
+                        {
+                            equalities.Pop();
+                        }
+
+                        pointer = equalities.Count > 0 ? equalities.Peek() : -1;
+                        post_ins = post_del = false;
+                    }
+                    changes = true;
+                }
+            }
+            pointer++;
+        }
+
         if (changes)
         {
             diff_cleanupMerge(diffs);

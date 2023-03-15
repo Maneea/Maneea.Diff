@@ -9,7 +9,7 @@
   <!-- NuGet Properties -->
   <PropertyGroup>
     <PackageId>Maneea.Diff</PackageId>
-    <Version>0.2.2</Version>
+    <Version>0.2.3</Version>
     <Authors>Maneea</Authors>
     <Title>.NET Diff</Title>
     <Description>Library to help in finding differences between POCO instances. Much like git-diff, but for .NET</Description>
@@ -17,6 +17,8 @@
     <PackageTags>Diff;Difference;History;Versioning</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<RepositoryType>git</RepositoryType>
+	<RepositoryUrl>https://github.com/Maneea/Maneea.Diff</RepositoryUrl>
   </PropertyGroup>
   
   <!-- NuGet Items -->

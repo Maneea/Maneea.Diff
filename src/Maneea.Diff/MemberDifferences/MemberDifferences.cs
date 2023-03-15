@@ -43,7 +43,7 @@ public class MemberDifferences : IEquatable<MemberDifferences>
         // TODO: Provide a way to change the configuration values of InternalDiffer.
 
         var internalDiffs = differ.GetTextDifferences(oldVersion, newVersion);
-        differ.diff_cleanupSemantic(internalDiffs);
+        differ.diff_cleanupEfficiency(internalDiffs);
 
         OldVersionSegments = new List<MemberDifferenceSegment>();
         NewVersionSegments = new List<MemberDifferenceSegment>();

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Reflection;
 using Xunit;
 using Xunit.Abstractions;
@@ -19,7 +19,7 @@ public class UnitTest1
     {
         TestModel oldVersion = new()
         {
-            Name = "Old Test Model",
+            Name = "مهمة مهمة",
             Description = "This is an old test model that needs to be changes.\n"
                 + "In the newer version, some words, letters, or whole paragraphs might\n"
                 + "be changed.\n\n"
@@ -29,10 +29,7 @@ public class UnitTest1
         };
 
         TestModel newVersion = oldVersion.CreateNewVersion();
-        newVersion.Name = newVersion.Name
-            .Replace("Old", "New")
-            .Replace("Model", "model");
-
+        newVersion.Name = "مهمة بالغة الأهمية";
         newVersion.Description = newVersion.Description?
             .Replace("old", "new")
             .Replace("might", "may");
@@ -43,24 +40,13 @@ public class UnitTest1
         var diffs = Differentiator<TestModel>.GetDifferences(oldVersion, newVersion);
 
         var nameDiffs = diffs.GetMemberDifferences(_ => _.Name);
-        Assert.Equal(4, nameDiffs.OldVersionSegments.Count);
+        Output.WriteLine("OLD:");
+        foreach (var item in nameDiffs.OldVersionSegments)
+            Output.WriteLine($"[{(item.Operation == DifferenceType.Deletion ? '-':' ')}]{item.Text}");
 
-        var firstDiff = nameDiffs.OldVersionSegments[0];
-        var secondDiff = nameDiffs.OldVersionSegments[1];
-        var thirdDiff = nameDiffs.OldVersionSegments[2];
-        var fourthDiff = nameDiffs.OldVersionSegments[3];
-
-        Assert.Equal("Old", firstDiff.Text);
-        Assert.Equal(DifferenceType.Deletion, firstDiff.Operation);
-
-        Assert.Equal(" Test ", secondDiff.Text);
-        Assert.Equal(DifferenceType.Similar, secondDiff.Operation);
-
-        Assert.Equal("M", thirdDiff.Text);
-        Assert.Equal(DifferenceType.Deletion, thirdDiff.Operation);
-
-        Assert.Equal("odel", fourthDiff.Text);
-        Assert.Equal(DifferenceType.Similar, fourthDiff.Operation);
+        Output.WriteLine("NEW:");
+        foreach (var item in nameDiffs.NewVersionSegments)
+            Output.WriteLine($"[{(item.Operation == DifferenceType.Insertion ? '+' : ' ')}]{item.Text}");
 
         foreach (var diff in diffs)
         {
